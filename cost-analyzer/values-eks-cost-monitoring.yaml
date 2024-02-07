@@ -73,10 +73,10 @@ serviceAccount:
 
 # Define persistence volume for cost-analyzer
 persistentVolume:
-  size: 32Gi
-  dbSize: 32.0Gi
+  size: 10Gi
+  dbSize: 10Gi
   enabled: true # Note that setting this to false means configurations will be wiped out on pod restart.
-  # storageClass: "-" #
+  storageClass: "ebs-sc" #
   # existingClaim: kubecost-cost-analyzer # a claim in the same namespace as kubecost
 
 ingress:
@@ -111,13 +111,13 @@ prometheus:
     image:
       repository: public.ecr.aws/kubecost/prometheus
       tag: v2.48.1
-    resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 512Mi
-    # requests:
-    #   cpu: 500m
-    #   memory: 512Mi
+    resources:
+      limits:
+        cpu: 300m
+        memory: 512Mi
+      requests:
+        cpu: 300m
+        memory: 512Mi
     global:
       scrape_interval: 1m
       scrape_timeout: 60s
@@ -125,7 +125,7 @@ prometheus:
       external_labels:
         cluster_id: cluster-one # Each cluster should have a unique ID
     persistentVolume:
-      size: 32Gi
+      size: 10Gi
       enabled: true
     extraArgs:
       query.max-concurrency: 1
@@ -138,10 +138,8 @@ prometheus:
 
   configmapReload:
     prometheus:
-
       ## If false, the configmap-reload container will not be deployed
       enabled: false
-
       ## configmap-reload container name
       name: configmap-reload
 
@@ -170,7 +168,7 @@ prometheus:
       resources: {}
 
   nodeExporter:
-    enabled: false
+    enabled: true
 
 
 reporting:
