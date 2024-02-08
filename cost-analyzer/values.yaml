@@ -426,10 +426,10 @@ kubecostMetrics:
     # Adds the default Prometheus scrape annotations to the metrics exporter service.
     # Set to false and use service.annotations (below) to set custom scrape annotations.
     prometheusScrape: true
-    resources: {}
-      # requests:
-      #  cpu: "200m"
-      #  memory: "55Mi"
+    resources:
+      requests:
+       cpu: "200m"
+       memory: "55Mi"
     ## Node tolerations for server scheduling to nodes with taints
     ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
     tolerations: []
@@ -690,7 +690,7 @@ persistentVolume:
   size: 32Gi
   dbSize: 32.0Gi
   enabled: true  # Note that setting this to false means configurations will be wiped out on pod restart.
-  # storageClass: "-" #
+  storageClass: "standard-rwo"
   # existingClaim: kubecost-cost-analyzer # a claim in the same namespace as kubecost
   labels: {}
   annotations: {}
@@ -1011,7 +1011,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      # storageClass: "-"
+      storageClass: "standard-rwo"
 
       ## Prometheus server data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -1081,13 +1081,13 @@ prometheus:
     ## Prometheus server resource requests and limits
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
     ##
-    resources: {}
-      # limits:
-      #   cpu: 500m
-      #   memory: 512Mi
-      # requests:
-      #   cpu: 500m
-      #   memory: 512Mi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 512Mi
 
     ## Vertical Pod Autoscaler config
     ## Ref: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
@@ -1325,7 +1325,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      # storageClass: "-"
+      storageClass: "standard-rwo"
 
       ## alertmanager data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -1524,7 +1524,7 @@ prometheus:
     ## If false, node-exporter will not be installed.
     ## This is disabled by default in Kubecost 2.0, though it can be enabled as needed.
     ##
-    enabled: false
+    enabled: true
 
     ## If true, node-exporter pods share the host network namespace
     ##
@@ -1618,13 +1618,13 @@ prometheus:
     ## node-exporter resource limits & requests
     ## Ref: https://kubernetes.io/docs/user-guide/compute-resources/
     ##
-    resources: {}
-      # limits:
-      #   cpu: 200m
-      #   memory: 50Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 30Mi
+    resources:
+      limits:
+        cpu: 200m
+        memory: 50Mi
+      requests:
+        cpu: 100m
+        memory: 30Mi
 
     ## Security context to be added to node-exporter pods
     ##
@@ -1817,7 +1817,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      # storageClass: "-"
+      storageClass: "standard-rwo"
 
       ## pushgateway data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -2329,10 +2329,10 @@ kubecostAggregator:
   # 2400Mi. In most environments, the default should suffice.
   stagingEmptyDirSizeLimit: 2Gi
 
-  resources: {}
-    # requests:
-    #   cpu: 1000m
-    #   memory: 1Gi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
   env:
     "LOG_LEVEL": "info"
     "DB_READ_THREADS": "1"
@@ -2340,12 +2340,12 @@ kubecostAggregator:
     "DB_CONCURRENT_INGESTION_COUNT": "3"
   persistentConfigsStorage:
     # default storage class
-    storageClass: ""
+    storageClass: "standard-rwo"
     storageRequest: 1Gi
   aggregatorDbStorage:
     # default storage class
-    storageClass: ""
-    storageRequest: 128Gi
+    storageClass: "standard-rwo"
+    storageRequest: 30Gi
 
   readinessProbe:
     enabled: true
@@ -2391,10 +2391,10 @@ kubecostAggregator:
     # kA.dM = "singlepod" -> cloudCost is run as container inside cost-analyzer
     # kA.dM = "statefulset" -> cloudCost is run as single-replica Deployment
     enabled: false
-    resources: {}
-      # requests:
-      #   cpu: 1000m
-      #   memory: 1Gi
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 1Gi
     # refreshRateHours:
     # queryWindowDays:
     # runWindowDays:
@@ -2599,13 +2599,13 @@ grafana:
     #      - chart-example.local
 
   ## Resource requests and limits for the Grafana deployment
-  resources: {}
-  #  limits:
-  #    cpu: 100m
-  #    memory: 128Mi
-  #  requests:
-  #    cpu: 100m
-  #    memory: 128Mi
+  resources:
+   limits:
+     cpu: 100m
+     memory: 128Mi
+   requests:
+     cpu: 100m
+     memory: 128Mi
 
   ## Node labels for pod assignment of the Grafana deployment
   nodeSelector: {}
