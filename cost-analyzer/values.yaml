@@ -1524,7 +1524,7 @@ prometheus:
     ## If false, node-exporter will not be installed.
     ## This is disabled by default in Kubecost 2.0, though it can be enabled as needed.
     ##
-    enabled: true
+    enabled: false
 
     ## If true, node-exporter pods share the host network namespace
     ##
