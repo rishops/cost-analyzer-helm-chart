@@ -547,7 +547,7 @@ kubecostModel:
   resources:
     requests:
       cpu: "200m"
-      memory: "55Mi"
+      memory: "200Mi"
     # limits:
     #   cpu: "800m"
     #   memory: "256Mi"
@@ -690,7 +690,7 @@ persistentVolume:
   size: 32Gi
   dbSize: 32.0Gi
   enabled: true  # Note that setting this to false means configurations will be wiped out on pod restart.
-  storageClass: "standard-rwo"
+  storageClass: ""
   # existingClaim: kubecost-cost-analyzer # a claim in the same namespace as kubecost
   labels: {}
   annotations: {}
@@ -978,7 +978,7 @@ prometheus:
       ## If true, Prometheus server will create/use a Persistent Volume Claim
       ## If false, use emptyDir
       ##
-      enabled: true
+      enabled: false
 
       ## Prometheus server data Persistent Volume access modes
       ## Must match those of existing PV or dynamic provisioner
@@ -1011,7 +1011,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      storageClass: "standard-rwo"
+      storageClass: ""
 
       ## Prometheus server data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -1083,11 +1083,11 @@ prometheus:
     ##
     resources:
       limits:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 300m
+        memory: 256Mi
       requests:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 300m
+        memory: 256Mi
 
     ## Vertical Pod Autoscaler config
     ## Ref: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
@@ -1292,7 +1292,7 @@ prometheus:
       ## If true, alertmanager will create/use a Persistent Volume Claim
       ## If false, use emptyDir
       ##
-      enabled: true
+      enabled: false
 
       ## alertmanager data Persistent Volume access modes
       ## Must match those of existing PV or dynamic provisioner
@@ -1325,7 +1325,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      storageClass: "standard-rwo"
+      storageClass: ""
 
       ## alertmanager data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -1817,7 +1817,7 @@ prometheus:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      storageClass: "standard-rwo"
+      storageClass: ""
 
       ## pushgateway data Persistent Volume Binding Mode
       ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -2340,11 +2340,11 @@ kubecostAggregator:
     "DB_CONCURRENT_INGESTION_COUNT": "3"
   persistentConfigsStorage:
     # default storage class
-    storageClass: "standard-rwo"
+    storageClass: ""
     storageRequest: 1Gi
   aggregatorDbStorage:
     # default storage class
-    storageClass: "standard-rwo"
+    storageClass: ""
     storageRequest: 30Gi
 
   readinessProbe:
